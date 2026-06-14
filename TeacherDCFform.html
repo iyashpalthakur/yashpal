@@ -1,0 +1,869 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-Shikshakosh DCF for Teacher - Fillable Form</title>
+    <style>
+        :root {
+            --ink: #111111;
+            --line: #c9c9c9;
+            --dark: #262626;
+            --primary: #0d47a1;
+            --paper: #ffffff;
+            --bg: #eef3fb;
+            --input-focus: #e3f2fd;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", "Noto Sans Devanagari", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+        }
+
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 12px 18px;
+            background: #ffffff;
+            border-bottom: 1px solid #d7dfeb;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+
+        .toolbar a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            padding: 10px 14px;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            background: #ffffff;
+            color: var(--primary);
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: #f0f4f8;
+        }
+
+        .primary {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .primary:hover {
+            background: #0b3c8f;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 18px auto;
+            padding: 20mm 15mm;
+            background: var(--paper);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.14);
+            page-break-after: always;
+            break-after: page;
+            position: relative;
+        }
+
+        h1 {
+            margin: 0 0 18px;
+            text-align: center;
+            font-size: 21px;
+            text-decoration: underline;
+            color: var(--primary);
+        }
+
+        h2 {
+            margin: 22px 0 10px;
+            font-size: 16px;
+            border-left: 4px solid var(--primary);
+            padding-left: 8px;
+        }
+
+        .top-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .inline-input {
+            display: inline-block;
+            min-width: 210px;
+            border-bottom: 2px solid #333333;
+            vertical-align: middle;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 18px;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border: 1px solid var(--line);
+            padding: 8px 10px;
+            vertical-align: middle;
+            font-size: 13.5px;
+        }
+
+        th {
+            text-align: left;
+            font-weight: 800;
+            background: #f7f7f7;
+        }
+
+        .dark th {
+            background: var(--dark);
+            color: #ffffff;
+        }
+
+        .field-label {
+            font-weight: 800;
+            background: #fafafa;
+            width: 30%;
+        }
+
+        .field-label small {
+            display: block;
+            font-size: 11px;
+            margin-top: 3px;
+            font-weight: normal;
+            color: #666;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="tel"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            min-height: 28px;
+            border: 0;
+            border-bottom: 1px solid #666666;
+            font: inherit;
+            background: transparent;
+            padding: 2px 4px;
+            outline: none;
+            transition: background-color 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="tel"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            background-color: var(--input-focus);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        textarea {
+            min-height: 48px;
+            resize: vertical;
+        }
+
+        /* --- तालिका के बक्सों के लिए सुधारे गए टेक्स्ट-रैप और क्लीन बॉर्डर सेटिंग्स --- */
+        .qual-table, .service-table {
+            table-layout: auto;
+        }
+
+        .qual-table th, .service-table th {
+            background: var(--dark);
+            color: #ffffff;
+            font-size: 12px;
+            text-align: center;
+            padding: 6px 4px;
+            word-wrap: break-word;
+        }
+
+        .qual-table td, .service-table td {
+            height: auto;
+            padding: 4px;
+            vertical-align: top;
+        }
+
+        /* बक्से की डिफ़ॉल्ट अंडरलाइन हटाकर चारों तरफ हल्का क्लीन बॉर्डर लागू किया गया */
+        .qual-table td textarea, .service-table td textarea {
+            width: 100%;
+            min-height: 36px;
+            height: auto;
+            border: 1px solid #d1d1d1;
+            border-radius: 4px;
+            font-size: 12.5px;
+            line-height: 1.4;
+            padding: 6px;
+            background: #fafafa;
+            resize: none;
+            overflow: hidden;
+            word-break: break-word;
+            white-space: pre-wrap;
+            transition: all 0.2s ease;
+        }
+
+        /* टाइपिंग करते समय (Focus होने पर) बक्से का रंग बदलेगा */
+        .qual-table td textarea:focus, .service-table td textarea:focus {
+            background-color: var(--input-focus);
+            border: 1px solid var(--primary);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            outline: none;
+        }
+
+        .check-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 15px;
+            align-items: center;
+        }
+
+        label.option {
+            white-space: nowrap;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            transform: translateY(1px);
+            margin-right: 4px;
+            cursor: pointer;
+        }
+
+        .small-note {
+            font-size: 12px;
+            color: #555555;
+            margin-left: 5px;
+        }
+
+        .photo-sign {
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            gap: 80px;
+            align-items: end;
+            margin-top: 50px;
+        }
+
+        .photo-box {
+            width: 150px;
+            height: 180px;
+            border: 1.5px dashed #000000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            font-size: 13px;
+            text-align: center;
+            background: #fafafa;
+        }
+
+        .sign-line {
+            border-top: 1px solid #000000;
+            text-align: center;
+            padding-top: 8px;
+            font-weight: 700;
+            width: 250px;
+            justify-self: end;
+        }
+
+        .declaration {
+            margin-top: 35px;
+            font-size: 14px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        @media (max-width: 860px) {
+            .page {
+                width: auto;
+                min-height: auto;
+                margin: 12px;
+                padding: 18px;
+            }
+
+            .top-fields,
+            .photo-sign {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .sign-line {
+                justify-self: start;
+                width: 100%;
+            }
+
+            .toolbar {
+                position: static;
+            }
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+
+            body {
+                background: #ffffff;
+            }
+
+            .toolbar {
+                display: none;
+            }
+
+            .page {
+                width: 100%;
+                min-height: auto;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+            
+            input[type="text"],
+            input[type="date"],
+            input[type="tel"],
+            input[type="email"],
+            textarea {
+                border-bottom: 1px solid #000000;
+            }
+
+            /* प्रिंट के समय बक्से का बॉर्डर और बैकग्राउंड अनुकूलित रखना */
+            .qual-table td textarea, .service-table td textarea {
+                border: 1px solid #a0a0a0;
+                background: transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <a href="index.html">← होमपेज पर वापस जाएं</a>
+        <strong>e-Shikshakosh DCF for Teacher</strong>
+        <div class="actions">
+            <button type="button" id="clearBtn">Clear Form</button>
+            <button type="button" class="primary" id="printBtn">Print / Save PDF</button>
+        </div>
+    </div>
+
+    <form id="dcfForm">
+        <section class="page">
+            <h1>ई-शिक्षाकोष शिक्षक प्रारूप (DCF Form)</h1>
+
+            <div class="top-fields">
+                <label>Teacher ID: <input class="inline-input" name="teacher_id" type="text"></label>
+                <label>Udise Code: <input class="inline-input" name="udise_code" type="text"></label>
+            </div>
+
+            <h2>1. Teacher Registration Information (शिक्षक पंजीकरण विवरण)</h2>
+            <table>
+                <tr>
+                    <td class="field-label">Prefix (उपसर्ग)</td>
+                    <td>
+                        <div class="check-row">
+                            <label class="option"><input type="radio" name="prefix" value="Dr.">Dr.</label>
+                            <label class="option"><input type="radio" name="prefix" value="Mr.">Mr.</label>
+                            <label class="option"><input type="radio" name="prefix" value="Mrs.">Mrs.</label>
+                            <label class="option"><input type="radio" name="prefix" value="Ms.">Ms.</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td class="field-label">First Name (पहला नाम)</td><td><input name="first_name" type="text"></td></tr>
+                <tr><td class="field-label">Middle Name (मध्य नाम)</td><td><input name="middle_name" type="text"></td></tr>
+                <tr><td class="field-label">Last Name (अंतिम नाम)</td><td><input name="last_name" type="text"></td></tr>
+                <tr>
+                    <td class="field-label">Gender (लिंग)</td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="gender" value="Male">MALE (पुरुष)</label>
+                        <label class="option"><input type="radio" name="gender" value="Female">FEMALE (महिला)</label>
+                        <label class="option"><input type="radio" name="gender" value="Transgender">TRANSGENDER</label>
+                    </div></td>
+                </tr>
+                <tr><td class="field-label">Date of Birth (जन्म तिथि)</td><td><input name="dob" type="date"> <span class="small-note">(DD-MON-YYYY)</span></td></tr>
+                <tr>
+                    <td class="field-label">Social Category (सामाजिक श्रेणी)</td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="social_category" value="GEN">GEN</label>
+                        <label class="option"><input type="radio" name="social_category" value="BC">BC</label>
+                        <label class="option"><input type="radio" name="social_category" value="EBC">EBC</label>
+                        <label class="option"><input type="radio" name="social_category" value="SC">SC</label>
+                        <label class="option"><input type="radio" name="social_category" value="ST">ST</label>
+                    </div></td>
+                </tr>
+                <tr><td class="field-label">Religion (धर्म)</td><td><input name="religion" type="text"></td></tr>
+                <tr><td class="field-label">Mobile Number (मोबाइल नंबर)</td><td>+91 <input name="mobile" type="tel" style="width:75%"></td></tr>
+                <tr><td class="field-label">Aadhaar Number (आधार संख्या)</td><td><input name="aadhaar" type="text"></td></tr>
+                <tr>
+                    <td class="field-label">Nature of Appointment <small>(नियुक्ति की प्रकृति)</small></td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="appointment_nature" value="Regular">Regular (नियमित)</label>
+                        <label class="option"><input type="radio" name="appointment_nature" value="PRI">PRI (नियोजित)</label>
+                        <label class="option"><input type="radio" name="appointment_nature" value="Govt Teacher">Govt Teacher</label>
+                        <label class="option"><input type="radio" name="appointment_nature" value="UHS Head Master">UHS Head Master</label>
+                    </div></td>
+                </tr>
+            </table>
+
+            <h2>Type of Teacher & Subject (शिक्षक का प्रकार एवं विषय)</h2>
+            <table>
+                <tr>
+                    <td class="field-label">Type of Teacher<br><small>(शिक्षक का प्रकार)</small></td>
+                    <td>
+                        <div class="check-row">
+                            <label class="option"><input type="checkbox" name="teacher_type" value="Head Teacher Primary">Head Teacher Primary</label>
+                            <label class="option"><input type="checkbox" name="teacher_type" value="School Teacher BPSC">School Teacher (BPSC)</label>
+                            <label class="option"><input type="checkbox" name="teacher_type" value="Assistant Teacher Elementary">Assistant Teacher Elementary</label>
+                            <label class="option"><input type="checkbox" name="teacher_type" value="UHS Headmaster">UHS Headmaster</label>
+                            <label class="option"><input type="checkbox" name="teacher_type" value="Head Master 1-8">Head Master(1-8)</label>
+                            <label class="option"><input type="checkbox" name="teacher_type" value="Principal">Principal</label>
+                            <label class="option"><input type="checkbox" name="teacher_type" value="Panchayat Teacher">Panchayat Teacher</label>
+                            <label class="option"><input type="checkbox" name="teacher_type" value="Prakhand Teacher">Prakhand Teacher</label>
+                            <label class="option"><input type="checkbox" name="teacher_type" value="Nagar Teacher">Nagar Teacher</label>
+                            <label class="option"><input type="checkbox" name="teacher_type" value="Niyojit Teacher">Niyojit Teacher</label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="page">
+            <table>
+                <tr><td class="field-label">Appointment Subject & Class <small>(नियुक्ति का विषय एवं कक्षा)</small></td><td><textarea name="appointment_subject_class"></textarea></td></tr>
+                <tr><td class="field-label">Date of Joining in Service <small>(योगदान तिथि)</small></td><td><input name="joining_service_date" type="date"> <span class="small-note">(DD-MON-YYYY)</span></td></tr>
+                <tr><td class="field-label">District of First Joining <small>(प्रथम योगदान का जिला)</small></td><td><input name="first_joining_district" type="text"></td></tr>
+            </table>
+
+            <h2>2. Posting Details (पदस्थापन विवरणी)</h2>
+            <table>
+                <tr><td class="field-label">District (जिला)</td><td><input name="posting_district" type="text"></td></tr>
+                <tr><td class="field-label">Block (प्रखंड)</td><td><input name="posting_block" type="text"></td></tr>
+                <tr><td class="field-label">Cluster/Complex <small>(संकुल संसाधन केंद्र)</small></td><td><input name="cluster" type="text"></td></tr>
+                <tr><td class="field-label">School Name & UDISE Code <small>(विद्यालय का नाम एवं कोड)</small></td><td><input name="school_name_udise" type="text"></td></tr>
+                <tr>
+                    <td class="field-label">Appointment for Level <small>(पदस्थापन स्तर)</small></td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="level" value="PRT">PRT</label>
+                        <label class="option"><input type="radio" name="level" value="TGT">TGT</label>
+                        <label class="option"><input type="radio" name="level" value="PGT">PGT</label>
+                    </div></td>
+                </tr>
+                <tr>
+                    <td class="field-label">Appointing Authority <small>(नियुक्ति प्राधिकार)</small></td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="checkbox" name="appointing_authority" value="Dept. of Education">Dept. of Education</label>
+                        <label class="option"><input type="checkbox" name="appointing_authority" value="Panchayat Niyojan">Panchayat Niyojan</label>
+                        <label class="option"><input type="checkbox" name="appointing_authority" value="Prakhand Niyojan">Prakhand Niyojan</label>
+                        <label class="option"><input type="checkbox" name="appointing_authority" value="Zila Parishad">Zila Parishad</label>
+                        <label class="option"><input type="checkbox" name="appointing_authority" value="Nagar Nigam">Nagar Nigam</label>
+                        <label class="option"><input type="checkbox" name="appointing_authority" value="Nagar Parishad">Nagar Parishad</label>
+                        <label class="option"><input type="checkbox" name="appointing_authority" value="Others">Others</label>
+                    </div></td>
+                </tr>
+                <tr><td class="field-label">Date of Joining in Current School</td><td><input name="current_school_joining" type="date"> <span class="small-note">(DD-MON-YYYY)</span></td></tr>
+            </table>
+
+            <h2>3. Personal Information (व्यक्तिगत सूचना)</h2>
+            <table>
+                <tr><td class="field-label">PAN Number (पैन संख्या)</td><td><input name="pan" type="text"></td></tr>
+                <tr><td class="field-label">Father's Name (पिता का नाम)</td><td><input name="father_name" type="text"></td></tr>
+                <tr><td class="field-label">Mother's Name (माता का नाम)</td><td><input name="mother_name" type="text"></td></tr>
+                <tr>
+                    <td class="field-label">Marital Status (वैवाहिक स्थिति)</td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="marital_status" value="Married">Married</label>
+                        <label class="option"><input type="radio" name="marital_status" value="Unmarried">Unmarried</label>
+                        <label class="option"><input type="radio" name="marital_status" value="Divorced">Divorced</label>
+                    </div></td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="page">
+            <table>
+                <tr><td class="field-label">Email ID (ईमेल आईडी)</td><td><input name="email" type="email"></td></tr>
+                <tr><td class="field-label">Blood Group (रक्त समूह)</td><td><input name="blood_group" type="text"></td></tr>
+                <tr>
+                    <td class="field-label">Appointment Category <small>(नियुक्ति की श्रेणी)</small></td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="appointment_category" value="GEN">GEN</label>
+                        <label class="option"><input type="radio" name="appointment_category" value="OBC">OBC</label>
+                        <label class="option"><input type="radio" name="appointment_category" value="BC">BC</label>
+                        <label class="option"><input type="radio" name="appointment_category" value="EBC">EBC</label>
+                        <label class="option"><input type="radio" name="appointment_category" value="SC">SC</label>
+                        <label class="option"><input type="radio" name="appointment_category" value="ST">ST</label>
+                    </div></td>
+                </tr>
+                <tr>
+                    <td class="field-label">Whether Disabled? <small>(क्या दिव्यांग हैं?)</small></td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="disabled" value="YES">YES</label>
+                        <label class="option"><input type="radio" name="disabled" value="NO">NO</label>
+                        <label style="margin-left: 15px;">यदि हाँ, तो प्रतिशत: <input name="disabled_percent" type="text" style="width:100px; display:inline-block;"></label>
+                    </div></td>
+                </tr>
+                <tr>
+                    <td class="field-label">Whether Awarded? <small>(क्या पुरस्कृत हैं?)</small></td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="awarded" value="YES">YES</label>
+                        <label class="option"><input type="radio" name="awarded" value="NO">NO</label>
+                        <label class="option" style="margin-left: 10px;"><input type="checkbox" name="award_type" value="NATIONAL">NATIONAL</label>
+                        <label class="option"><input type="checkbox" name="award_type" value="STATE">STATE</label>
+                    </div></td>
+                </tr>
+            </table>
+
+            <h2>4 & 5. Address Details (पता का विवरण)</h2>
+            <table class="dark">
+                <tr>
+                    <th style="width:25%">Field Name</th>
+                    <th>Permanent Address (स्थायी पता)</th>
+                    <th>Current Address (वर्तमान पता)</th>
+                </tr>
+                <tr><td class="field-label">House No./Name</td><td><input name="perm_house" type="text"></td><td><input name="curr_house" type="text"></td></tr>
+                <tr><td class="field-label">Street/Mohalla</td><td><input name="perm_street" type="text"></td><td><input name="curr_street" type="text"></td></tr>
+                <tr><td class="field-label">Village/Town</td><td><input name="perm_village" type="text"></td><td><input name="curr_village" type="text"></td></tr>
+                <tr><td class="field-label">Panchayat / PO</td><td><input name="perm_post" type="text"></td><td><input name="curr_post" type="text"></td></tr>
+                <tr><td class="field-label">Block & District</td><td><input name="perm_block_district" type="text"></td><td><input name="curr_block_district" type="text"></td></tr>
+                <tr><td class="field-label">PIN Code</td><td><input name="perm_pin" type="text"></td><td><input name="curr_pin" type="text"></td></tr>
+            </table>
+
+            <p style="margin-top:20px;"><strong>आवासीय प्रमाण पत्र विवरणी:</strong></p>
+            <div class="check-row" style="margin-bottom: 10px;">
+                <label class="option">Domicile Certificate Submitted at time of Appointment?</label>
+                <label class="option"><input type="radio" name="domicile_submitted" value="YES">YES</label>
+                <label class="option"><input type="radio" name="domicile_submitted" value="NO">NO</label>
+            </div>
+            <p>प्रमाण पत्र संख्या (Certificate No.): <input name="domicile_certificate_no" type="text" style="width:40%; display:inline-block;"></p>
+        </section>
+
+        <section class="page">
+            <h2>6. Appointment & Salary Details (नियुक्ति एवं वर्तमान वेतन विवरणी)</h2>
+            <p><strong>A.</strong> यदि शिक्षक पंचायती राज / नगर प्रारंभिक शिक्षक नियोजन नियमावली के अंतर्गत नियुक्त हैं (IF YES)</p>
+            <table>
+                <tr><td class="field-label">Initial Basic Salary</td><td><input name="initial_basic_salary" type="text"></td></tr>
+                <tr><td class="field-label">Present Basic Salary</td><td><input name="present_basic_salary_a" type="text"></td></tr>
+                <tr><td class="field-label">Letter No & Date</td><td><input name="appointment_letter_a" type="text"></td></tr>
+                <tr><td class="field-label">Date of Current Posting</td><td><input name="present_posting_date_a" type="date"></td></tr>
+                <tr><td class="field-label">UAN Number</td><td><input name="uan_salary" type="text"></td></tr>
+                <tr>
+                    <td class="field-label">Payment Process</td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="payment_process_a" value="BANK TRANSFER">BANK TRANSFER</label>
+                        <label class="option"><input type="radio" name="payment_process_a" value="CHEQUE">CHEQUE</label>
+                    </div></td>
+                </tr>
+            </table>
+
+            <p style="margin-top:25px;"><strong>B.</strong> यदि शिक्षक नियोजन नियमावली के अंतर्गत नियुक्त नहीं हैं (IF NO)</p>
+            <table>
+                <tr><td class="field-label">Pay Matrix Level</td><td><input name="pay_matrix_level" type="text"></td></tr>
+                <tr><td class="field-label">Present Pay Scale</td><td><input name="present_pay_scale" type="text"></td></tr>
+                <tr><td class="field-label">Letter No & Date</td><td><input name="appointment_letter_b" type="text"></td></tr>
+                <tr><td class="field-label">Date of Current Posting</td><td><input name="present_posting_date_b" type="date"></td></tr>
+                <tr><td class="field-label">Present Basic Pay</td><td><input name="present_basic_pay_b" type="text"></td></tr>
+                <tr><td class="field-label">Present HRA Pay</td><td><input name="present_hra_pay" type="text"></td></tr>
+            </table>
+        </section>
+
+        <section class="page">
+            <table>
+                <tr><td class="field-label">Present Grade Pay</td><td><input name="present_grade_pay" type="text"></td></tr>
+                <tr><td class="field-label">Present Total Pay</td><td><input name="present_total_pay" type="text"></td></tr>
+                <tr><td class="field-label">PRAN / GPF No.</td><td><input name="pran_gpf" type="text"></td></tr>
+                <tr>
+                    <td class="field-label">Payment Process</td>
+                    <td><div class="check-row">
+                        <label class="option"><input type="radio" name="payment_process_b" value="BANK TRANSFER">BANK TRANSFER</label>
+                        <label class="option"><input type="radio" name="payment_process_b" value="CHEQUE">CHEQUE</label>
+                        <label class="option"><input type="radio" name="payment_process_b" value="TREASURY">TREASURY</label>
+                    </div></td>
+                </tr>
+            </table>
+
+            <h2>Bank Details (बैंक खाता विवरणी)</h2>
+            <table>
+                <tr><td class="field-label">Name of Bank</td><td><input name="bank_name" type="text"></td></tr>
+                <tr><td class="field-label">Name of Branch</td><td><input name="branch_name" type="text"></td></tr>
+                <tr><td class="field-label">Bank Account No.</td><td><input name="account_no" type="text"></td></tr>
+                <tr><td class="field-label">IFSC Code</td><td><input name="ifsc" type="text"></td></tr>
+            </table>
+
+            <h2>7. Service Description / History of Posting (स्थानांतरण/पदस्थापन विवरणी)</h2>
+            <table class="service-table" data-rows="5" data-prefix="s">
+                <thead>
+                    <tr>
+                        <th style="width:5%">Sl.</th>
+                        <th>District/Block</th>
+                        <th>School Name</th>
+                        <th style="width:12%">UDISE Code</th>
+                        <th>Designation</th>
+                        <th style="width:11%">From</th>
+                        <th style="width:11%">To</th>
+                        <th>Subject & Class</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </section>
+
+        <section class="page">
+            <h2>8. Educational & Professional Qualifications (योग्यता विवरणी)</h2>
+            
+            <h2>A. Educational Qualification Pre-Service (सेवा-पूर्व शैक्षणिक योग्यता)</h2>
+            <table class="qual-table" data-rows="5" data-prefix="pre">
+                <thead>
+                    <tr><th style="width:5%">Sl.</th><th>Education</th><th style="width:10%">Year</th><th>Institution</th><th>Board/Univ.</th><th>Subject</th><th>Marks Obs.</th><th>Full Marks</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <h2>B. Educational Qualification In-Service (सेवा-कालीन शैक्षणिक योग्यता)</h2>
+            <table class="qual-table" data-rows="3" data-prefix="inservice">
+                <thead>
+                    <tr><th style="width:5%">Sl.</th><th>Education</th><th style="width:10%">Year</th><th>Institution</th><th>Board/Univ.</th><th>Subject</th><th>Marks Obs.</th><th>Full Marks</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <h2>C. Professional/Vocational Qualification (प्रशैक्षणिक योग्यता)</h2>
+            <table class="qual-table" data-rows="3" data-prefix="professional">
+                <thead>
+                    <tr><th style="width:5%">Sl.</th><th>Education</th><th style="width:10%">Year</th><th>Institution</th><th>Board/Univ.</th><th>Subject</th><th>Marks Obs.</th><th>Full Marks</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <section class="page">
+            <h2>9. Other & Training Information (अन्य एवं प्रशिक्षण विवरणी)</h2>
+            <table>
+                <tr>
+                    <td class="field-label">TET Based Appointment?<br><small>(पात्रता परीक्षा आधार?)</small></td>
+                    <td>
+                        <div class="check-row" style="margin-bottom: 8px;">
+                            <label class="option"><input type="radio" name="tet_based" value="YES">YES (हाँ)</label>
+                            <label class="option"><input type="radio" name="tet_based" value="NO">NO (नहीं)</label>
+                            <label class="option" style="margin-left:15px;"><input type="checkbox" name="tet_exam" value="CTET">CTET</label>
+                            <label class="option"><input type="checkbox" name="tet_exam" value="STET">STET</label>
+                            <label class="option"><input type="checkbox" name="tet_exam" value="TET">TET</label>
+                        </div>
+                        <p style="margin:5px 0 0;">
+                            Roll No: <input name="tet_roll" type="text" style="width:25%; display:inline-block;"> 
+                            Passing Year: <input name="tet_year" type="text" style="width:18%; display:inline-block;"> 
+                            Marks: <input name="tet_marks" type="text" style="width:15%; display:inline-block;">
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field-label">Worked as BRP/CRCC?<br><small>(BRP/CRCC कार्य अनुभव)</small></td>
+                    <td>
+                        <p style="margin: 0 0 8px;"><strong>BRP:</strong>
+                            <label class="option" style="margin-left:10px;"><input type="radio" name="brp" value="Worked">Worked</label>
+                            <label class="option"><input type="radio" name="brp" value="Working">Working</label>
+                            <label class="option"><input type="radio" name="brp" value="Never">Never</label>
+                        </p>
+                        <p style="margin: 0;"><strong>CRCC:</strong>
+                            <label class="option" style="margin-left:10px;"><input type="radio" name="crcc" value="Worked">Worked</label>
+                            <label class="option"><input type="radio" name="crcc" value="Working">Working</label>
+                            <label class="option"><input type="radio" name="crcc" value="Never">Never</label>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field-label">Training Status<br><small>(प्रशिक्षण की स्थिति)</small></td>
+                    <td>
+                        <p style="margin: 0 0 6px;">Computer trained for teaching? 
+                            <label class="option" style="margin-left:10px;"><input type="radio" name="computer_trained" value="YES">YES</label>
+                            <label class="option"><input type="radio" name="computer_trained" value="NO">NO</label>
+                        </p>
+                        <p style="margin: 0 0 6px;">Are you a trained teacher? 
+                            <label class="option" style="margin-left:10px;"><input type="radio" name="trained_teacher" value="YES">YES</label>
+                            <label class="option"><input type="radio" name="trained_teacher" value="NO">NO</label>
+                        </p>
+                        <p style="margin: 0 0 6px;">Trained for teaching CWSN? 
+                            <label class="option" style="margin-left:10px;"><input type="radio" name="cwsn_training" value="YES">YES</label>
+                            <label class="option"><input type="radio" name="cwsn_training" value="NO">NO</label>
+                        </p>
+                        <p style="margin: 0;">Received training in FLN-NISHTHA? 
+                            <label class="option" style="margin-left:10px;"><input type="radio" name="fln_nishtha" value="YES">YES</label>
+                            <label class="option"><input type="radio" name="fln_nishtha" value="NO">NO</label>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field-label">Languages Known<br><small>(कार्यसाधक भाषाएँ)</small></td>
+                    <td>
+                        <p style="margin: 0 0 5px;">1. <input name="language_1" type="text" style="width:60%; display:inline-block;"></p>
+                        <p style="margin: 0 0 5px;">2. <input name="language_2" type="text" style="width:60%; display:inline-block;"></p>
+                        <p style="margin: 0;">3. <input name="language_3" type="text" style="width:60%; display:inline-block;"></p>
+                    </td>
+                </tr>
+            </table>
+
+            <p class="declaration">प्रमाणित किया जाता है कि उपर्युक्त विवरणी सत्य एवं सही है। संबंधित दस्तावेज/शैक्षणिक एवं प्रशैक्षणिक प्रमाण पत्र संलग्न हैं।</p>
+
+            <div class="photo-sign">
+                <div class="photo-box">Passport Size<br>Photo</div>
+                <div class="sign-line">संबंधित शिक्षक के हस्ताक्षर</div>
+            </div>
+        </section>
+    </form>
+
+    <script>
+        const form = document.getElementById("dcfForm");
+        const storageKey = "learnWithPkpankajDcfForm";
+
+        // ऑटो-एक्सपेंड फ़ंक्शन (टेक्स्टएरिया की ऊंचाई को कंटेंट के हिसाब से बढ़ाएगा)
+        function autoExpandTextarea(el) {
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+        }
+
+        // योग्यता (Educational Table) की डायनामिक पंक्तियाँ उत्पन्न करना
+        document.querySelectorAll(".qual-table").forEach((table) => {
+            const rows = Number(table.dataset.rows);
+            const prefix = table.dataset.prefix;
+            const tbody = table.querySelector('tbody');
+            
+            for (let row = 1; row <= rows; row++) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td style="text-align:center; padding-top:10px;">${row}</td>
+                    <td><textarea name="${prefix}_${row}_education" rows="1"></textarea></td>
+                    <td><textarea name="${prefix}_${row}_year" rows="1"></textarea></td>
+                    <td><textarea name="${prefix}_${row}_institution" rows="1"></textarea></td>
+                    <td><textarea name="${prefix}_${row}_board" rows="1"></textarea></td>
+                    <td><textarea name="${prefix}_${row}_subject" rows="1"></textarea></td>
+                    <td><textarea name="${prefix}_${row}_marks" rows="1"></textarea></td>
+                    <td><textarea name="${prefix}_${row}_full_marks" rows="1"></textarea></td>
+                `;
+                tbody.appendChild(tr);
+            }
+        });
+
+        // सेवा इतिहास (Service History Table Section 7) की डायनामिक पंक्तियाँ उत्पन्न करना
+        const serviceTableBody = document.querySelector(".service-table tbody");
+        if(serviceTableBody) {
+            for (let row = 1; row <= 5; row++) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td style="text-align:center; padding-top:10px;">${row}</td>
+                    <td><textarea name="s_${row}_district" rows="1"></textarea></td>
+                    <td><textarea name="s_${row}_school" rows="1"></textarea></td>
+                    <td><textarea name="s_${row}_udise" rows="1"></textarea></td>
+                    <td><textarea name="s_${row}_designation" rows="1"></textarea></td>
+                    <td><textarea name="s_${row}_from" rows="1"></textarea></td>
+                    <td><textarea name="s_${row}_to" rows="1"></textarea></td>
+                    <td><textarea name="s_${row}_subject" rows="1"></textarea></td>
+                `;
+                serviceTableBody.appendChild(tr);
+            }
+        }
+
+        function allFields() {
+            return Array.from(form.querySelectorAll("input, textarea, select"));
+        }
+
+        // फॉर्म डेटा लोकल स्टोरेज में सुरक्षित करना
+        function saveForm() {
+            const data = {};
+            allFields().forEach((field) => {
+                if (!field.name) return;
+                if (field.type === "checkbox") {
+                    if (!data[field.name]) data[field.name] = [];
+                    if (field.checked) data[field.name].push(field.value);
+                } else if (field.type === "radio") {
+                    if (field.checked) data[field.name] = field.value;
+                } else {
+                    data[field.name] = field.value;
+                }
+            });
+            localStorage.setItem(storageKey, JSON.stringify(data));
+        }
+
+        // फॉर्म डेटा लोड करना और टेक्स्टएरिया को री-साइज करना
+        function loadForm() {
+            const saved = localStorage.getItem(storageKey);
+            if (!saved) return;
+            try {
+                const data = JSON.parse(saved);
+                allFields().forEach((field) => {
+                    if (!field.name) return;
+                    
+                    if (field.type === "checkbox") {
+                        field.checked = Array.isArray(data[field.name]) && data[field.name].includes(field.value);
+                    } else if (field.type === "radio") {
+                        field.checked = data[field.name] === field.value;
+                    } else if (data[field.name] !== undefined) {
+                        field.value = data[field.name];
+                        // अगर लोड किया हुआ एलिमेंट टेक्स्टएरिया है, तो ऊंचाई एडजस्ट करें
+                        if(field.tagName.toLowerCase() === 'textarea') {
+                            autoExpandTextarea(field);
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Error loading saved data:", error);
+                localStorage.removeItem(storageKey);
+            }
+        }
+
+        // टाइप करते समय ऑटो-विस्तार लागू करने के लिए इवेंट डेलिगेशन
+        form.addEventListener("input", (e) => {
+            if(e.target.tagName.toLowerCase() === 'textarea') {
+                autoExpandTextarea(e.target);
+            }
+            saveForm();
+        });
+        
+        form.addEventListener("change", saveForm);
+
+        document.getElementById("printBtn").addEventListener("click", () => {
+            saveForm();
+            window.print();
+        });
+
+        document.getElementById("clearBtn").addEventListener("click", () => {
+            if (!confirm("क्या आप पूरा DCF फॉर्म खाली करना चाहते हैं? सारा सुरक्षित डेटा हट जाएगा।")) return;
+            form.reset();
+            localStorage.removeItem(storageKey);
+            allFields().forEach(field => {
+                if(field.type === 'checkbox' || field.type === 'radio') field.checked = false;
+                if(field.tagName.toLowerCase() === 'textarea') field.style.height = 'auto';
+            });
+        });
+
+        // डॉक्युमेंट लोड होने पर रन करें
+        document.addEventListener("DOMContentLoaded", loadForm);
+    </script>
+</body>
+</html>
